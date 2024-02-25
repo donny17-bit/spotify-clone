@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useRouter } from "next/navigation";
 import { Inter } from "next/font/google";
 import {
   Box,
@@ -32,6 +33,12 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const router = useRouter();
+
+  const loginBtn: Function = () => {
+    router.push("/api/login");
+  };
+
   return (
     <>
       <Head>
@@ -252,6 +259,7 @@ export default function Home() {
                   fontWeight={"650"}
                   fontSize={"15px"}
                   _hover={{ bgColor: "#a19fa0", textColor: "white" }}
+                  onClick={() => loginBtn()}
                 >
                   Masuk
                 </Button>
