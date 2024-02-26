@@ -34,8 +34,6 @@ export default async function handler(
     res.setHeader("Allow", ["GET"]);
     res.status(405).end(`Method ${method} Not Allowed`);
   }
-
-  console.log(q);
 }
 
 async function handleLoginReq(
@@ -52,11 +50,6 @@ async function handleLoginReq(
     });
 
   // Set the status code to 302 Found
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE, OPTIONS"
-  );
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.status(302).setHeader("Location", spotifyAuthUrl).end();
+  res.status(302).setHeader("Location", spotifyAuthUrl);
+  // res.status(302).json({ message: "sukses" });
 }

@@ -30,6 +30,7 @@ import { VscLibrary } from "react-icons/vsc";
 import { FaPlus } from "react-icons/fa6";
 import { IoIosGlobe } from "react-icons/io";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import querystring from "querystring";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -44,9 +45,22 @@ export default function Home() {
   };
 
   async function login() {
+    // ga pake api local
+    const client_id: string = "e529c8dfcf934586965b68bbd996f202";
+    const redirect_uri: string = "http://127.0.0.1:3000/api/callback";
+
+    const spotifyAuthUrl =
+      "https://accounts.spotify.com/authorize?" +
+      querystring.stringify({
+        response_type: "code",
+        client_id: client_id as string,
+        redirect_uri: redirect_uri as string,
+      });
+
     try {
+      const response = router.push(spotifyAuthUrl);
       // const response = await get("api/login");
-      const response = await fetch("api/login")
+      const callback = await fetch("api/callback")
         .then((res) => res.json())
         .then((data) => {
           setData(data);
@@ -54,6 +68,7 @@ export default function Home() {
 
       // const data = await response.json();
       console.log(response);
+      console.log(callback);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
