@@ -1,11 +1,22 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import NextCors from "nextjs-cors";
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const { method } = req;
   const client_id: string = "e529c8dfcf934586965b68bbd996f202";
   const client_secret: string = "f405192d372346619a2a4f631092ba90";
   const redirect_uri: string = "http://127.0.0.1:3000/api/callback";
   const baseUrl = req.url?.split("?")[0];
+
+  await NextCors(req, res, {
+    // Options
+    methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
+    origin: "*",
+    optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+  });
 
   if (method === "GET") {
     if (baseUrl === "/api/callback") {

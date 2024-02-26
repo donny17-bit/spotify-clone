@@ -1,6 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  // Enable CORS for all origins
+  // res.setHeader("Access-Control-Allow-Origin", "*");
+  // res.setHeader(
+  //   "Access-Control-Allow-Methods",
+  //   "GET, POST, PUT, DELETE, OPTIONS"
+  // );
+  // res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
   const { method } = req;
   const client_id: string = "e529c8dfcf934586965b68bbd996f202";
   const client_secret: string = "f405192d372346619a2a4f631092ba90";

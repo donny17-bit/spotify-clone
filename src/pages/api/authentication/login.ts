@@ -1,7 +1,19 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import querystring from "querystring";
+import NextCors from "nextjs-cors";
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  // Enable CORS for all origins
+  // res.setHeader("Access-Control-Allow-Origin", "*");
+  // res.setHeader(
+  //   "Access-Control-Allow-Methods",
+  //   "GET, POST, PUT, DELETE, OPTIONS"
+  // );
+  // res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
   const { method } = req;
   const client_id: string = "e529c8dfcf934586965b68bbd996f202";
   const redirect_uri: string = "http://127.0.0.1:3000/api/callback";
@@ -22,9 +34,15 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     res.setHeader("Allow", ["GET"]);
     res.status(405).end(`Method ${method} Not Allowed`);
   }
+
+  console.log(q);
 }
 
-function handleLoginReq(query: any, res: NextApiResponse) {
+async function handleLoginReq(
+  query: any,
+  res: NextApiResponse
+  // req: NextApiRequest
+) {
   const spotifyAuthUrl =
     "https://accounts.spotify.com/authorize?" +
     querystring.stringify({
@@ -34,5 +52,11 @@ function handleLoginReq(query: any, res: NextApiResponse) {
     });
 
   // Set the status code to 302 Found
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, OPTIONS"
+  );
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
   res.status(302).setHeader("Location", spotifyAuthUrl).end();
 }

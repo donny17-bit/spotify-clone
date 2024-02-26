@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/navigation";
 import { Inter } from "next/font/google";
@@ -34,10 +35,29 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const router = useRouter();
+  const [data, setData] = useState(null);
 
   const loginBtn: Function = () => {
-    router.push("/api/login");
+    // const login = router.push("/api/login");
+    login();
+    // console.log(login.data);
   };
+
+  async function login() {
+    try {
+      // const response = await get("api/login");
+      const response = await fetch("api/login")
+        .then((res) => res.json())
+        .then((data) => {
+          setData(data);
+        });
+
+      // const data = await response.json();
+      console.log(response);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
 
   return (
     <>
