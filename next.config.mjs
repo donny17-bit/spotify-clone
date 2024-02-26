@@ -9,7 +9,11 @@ const nextConfig = {
       },
       {
         source: "/api/callback",
-        destination: "/api/authentication/login",
+        destination: "/api/authentication/callback",
+      },
+      {
+        source: "/api/refresh-token",
+        destination: "/api/authentication/refresh-token",
       },
     ];
   },
