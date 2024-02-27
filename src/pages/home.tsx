@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { Inter } from "next/font/google";
 import {
   Box,
@@ -31,18 +31,31 @@ import { FaPlus } from "react-icons/fa6";
 import { IoIosGlobe } from "react-icons/io";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import querystring from "querystring";
+import { NextApiRequest, NextApiResponse } from "next";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const router = useRouter();
+  const access_token: string = router.query.user;
+  const refresh_token: string = router.query.refresh;
+
+  useEffect(() => {
+    // Check if running on the client-side
+    if (typeof window !== "undefined") {
+      // Use localStorage to set user data
+      localStorage.setItem("access_token", access_token);
+      localStorage.setItem("refresh_token", refresh_token);
+    }
+  }, [access_token, refresh_token]);
+
   const [data, setData] = useState(null);
 
   const loginBtn: Function = () => {
-    login();
+    loginHandler();
   };
 
-  async function login() {
+  async function loginHandler() {
     const client_id: string = "e529c8dfcf934586965b68bbd996f202";
     const redirect_uri: string = "http://127.0.0.1:3000/api/callback";
 

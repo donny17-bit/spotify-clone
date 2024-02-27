@@ -45,6 +45,7 @@ export default function Home() {
   async function loginHandler() {
     const client_id: string = "e529c8dfcf934586965b68bbd996f202";
     const redirect_uri: string = "http://127.0.0.1:3000/api/callback";
+    // const redirect_uri: string = "http://127.0.0.1:3000/home";
 
     const spotifyAuthUrl =
       "https://accounts.spotify.com/authorize?" +

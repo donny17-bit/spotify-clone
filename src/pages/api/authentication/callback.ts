@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 // import NextCors from "nextjs-cors";
 import { useRouter } from "next/navigation";
+import querystring from "querystring";
 
 export default async function handler(
   req: NextApiRequest,
@@ -53,7 +54,7 @@ async function handleCallbackReq(
   formData.append("redirect_uri", query.redirect_uri);
   formData.append("grant_type", "authorization_code");
 
-  await fetch("https://accounts.spotify.com/api/token", {
+  const response = await fetch("https://accounts.spotify.com/api/token", {
     method: "POST",
     headers: {
       "content-type": "application/x-www-form-urlencoded",
@@ -66,13 +67,25 @@ async function handleCallbackReq(
         throw new Error("Network response was not ok");
       }
 
-      response.json();
+      return response.json();
     })
     .catch((error) => {
       console.error("Error:", error);
       res.status(500).json({ error: "Internal Server Error" });
-    })
-    .finally(() => {
-      res.status(302).setHeader("Location", "http://127.0.0.1:3000/home").end();
     });
+
+  const data = response;
+
+  // res.status(200).json({ data: data.access_token, message: "success" });
+  res
+    .status(302)
+    .setHeader(
+      "Location",
+      "http://127.0.0.1:3000/home?" +
+        querystring.stringify({
+          user: data.access_token,
+          refresh: data.refresh_token,
+        })
+    )
+    .end();
 }
