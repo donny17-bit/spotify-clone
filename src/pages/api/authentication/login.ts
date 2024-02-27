@@ -1,11 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import querystring from "querystring";
 import NextCors from "nextjs-cors";
+import { useRouter } from "next/navigation";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
   // Enable CORS for all origins
   // res.setHeader("Access-Control-Allow-Origin", "*");
   // res.setHeader(
@@ -16,7 +14,8 @@ export default async function handler(
 
   const { method } = req;
   const client_id: string = "e529c8dfcf934586965b68bbd996f202";
-  const redirect_uri: string = "http://127.0.0.1:3000/api/callback";
+  // const redirect_uri: string = "http://127.0.0.1:3000/api/callback";
+  const redirect_uri: string = "http://127.0.0.1:3000/";
   const baseUrl = req.url?.split("?")[0];
 
   if (method === "GET") {
@@ -36,11 +35,13 @@ export default async function handler(
   }
 }
 
-async function handleLoginReq(
+function handleLoginReq(
   query: any,
   res: NextApiResponse
   // req: NextApiRequest
 ) {
+  // const router = useRouter();
+
   const spotifyAuthUrl =
     "https://accounts.spotify.com/authorize?" +
     querystring.stringify({
@@ -50,6 +51,7 @@ async function handleLoginReq(
     });
 
   // Set the status code to 302 Found
-  res.status(302).setHeader("Location", spotifyAuthUrl);
-  // res.status(302).json({ message: "sukses" });
+  res.status(302).setHeader("Location", spotifyAuthUrl).end();
+  // router.push(spotifyAuthUrl);
+  // res.status(302).json({ message: "redirect to spotify login page" });
 }

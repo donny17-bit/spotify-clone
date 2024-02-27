@@ -39,10 +39,10 @@ export default function Home() {
   const [data, setData] = useState(null);
 
   const loginBtn: Function = () => {
-    loginHandler();
+    login();
   };
 
-  async function loginHandler() {
+  async function login() {
     const client_id: string = "e529c8dfcf934586965b68bbd996f202";
     const redirect_uri: string = "http://127.0.0.1:3000/api/callback";
 
@@ -64,7 +64,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Spotify Clone</title>
+        <title>Spotify Clone - Home</title>
       </Head>
       <main className=" h-[100vh] w-[100vw] bg-black">
         <Grid
