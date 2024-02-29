@@ -1,54 +1,19 @@
 import { Button, Icon, HStack } from "@chakra-ui/react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import querystring from "querystring";
-import { useRouter } from "next/router";
+import User from "./user";
+import Guest from "./guest";
 
-function Navigation() {
-  const router = useRouter();
+type data = {
+  login: number;
+};
 
-  const loginBtn: Function = async () => {
-    const client_id: string = "e529c8dfcf934586965b68bbd996f202";
-    const redirect_uri: string = "http://127.0.0.1:3000/api/callback";
-
-    const spotifyAuthUrl =
-      "https://accounts.spotify.com/authorize?" +
-      querystring.stringify({
-        response_type: "code",
-        client_id: client_id as string,
-        redirect_uri: redirect_uri as string,
-      });
-
-    try {
-      router.push(spotifyAuthUrl);
-    } catch (error) {
-      console.error("Error to login", error);
-    }
-  };
-
-  async function loginHandler() {
-    const client_id: string = "e529c8dfcf934586965b68bbd996f202";
-    const redirect_uri: string = "http://127.0.0.1:3000/api/callback";
-
-    const spotifyAuthUrl =
-      "https://accounts.spotify.com/authorize?" +
-      querystring.stringify({
-        response_type: "code",
-        client_id: client_id as string,
-        redirect_uri: redirect_uri as string,
-      });
-
-    try {
-      router.push(spotifyAuthUrl);
-    } catch (error) {
-      console.error("Error to login", error);
-    }
-  }
-
+function Navigation(data: data) {
   return (
     <HStack
       justify={"space-between"}
       h="8%"
-      bg="#121212"
+      bg={data.login === 1 ? "#1E1E1E" : "#121212"}
+      // {data.login === 1 ? {bg='#1E1E1E'} : {bg="#121212"}}
       borderTopRadius="lg"
       px={8}
     >
@@ -74,26 +39,7 @@ function Navigation() {
           <Icon as={IoIosArrowForward} boxSize={6} />
         </Button>
       </HStack>
-      <HStack spacing={"8"}>
-        <Button
-          variant="link"
-          color={"#A0A0A0"}
-          _hover={{ textDecoration: "none", textColor: "white" }}
-        >
-          Daftar
-        </Button>
-        <Button
-          borderRadius={"full"}
-          size={"md"}
-          textColor={"black"}
-          fontWeight={"650"}
-          fontSize={"15px"}
-          _hover={{ bgColor: "#a19fa0", textColor: "white" }}
-          onClick={() => loginBtn()}
-        >
-          Masuk
-        </Button>
-      </HStack>
+      {data.login === 1 ? <User /> : <Guest />}
     </HStack>
   );
 }

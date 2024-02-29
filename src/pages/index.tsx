@@ -7,28 +7,30 @@ import nextLink from "next/link";
 
 import Navbar from "@/components/Navbar";
 import Navigation from "@/components/Navigation";
-import DefaultMainSection from "@/components/MainSection/default";
-import MainSection from "@/components/MainSection";
+import DefaultMainSection from "@/components/MainSection/guest";
+import MainSection from "@/components/MainSection/user";
 
 import querystring from "querystring";
 
 export default function Home() {
   const router = useRouter();
-  const [main, setMain] = useState(0);
+  const [main, setMain] = useState(0); // check if user login or not
 
   // use redux please
   const access_token: string = router.query.user;
   const refresh_token: string = router.query.refresh;
 
   useEffect(() => {
-    console.log(main);
-
     // Check if running on the client-side
-    if (typeof window !== "undefined") {
-      // Use localStorage to set user data
-      localStorage.setItem("access_token", access_token);
-      localStorage.setItem("refresh_token", refresh_token);
-      setMain(1);
+    if (typeof window !== undefined) {
+      if (access_token != undefined) {
+        localStorage.setItem("access_token", access_token);
+        setMain(1);
+      }
+      if (access_token != undefined) {
+        localStorage.setItem("refresh_token", refresh_token);
+        setMain(1);
+      }
     }
   }, [access_token, refresh_token]);
 
@@ -51,7 +53,7 @@ export default function Home() {
           {/* main */}
           <GridItem pt="2" pb="2" pe="2" bg="black" area={"main"}>
             {/* navigation */}
-            <Navigation />
+            <Navigation login={main} />
             {/* main section */}
             {main === 0 ? <DefaultMainSection /> : <MainSection />}
           </GridItem>

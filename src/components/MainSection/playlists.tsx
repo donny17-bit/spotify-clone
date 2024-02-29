@@ -12,7 +12,6 @@ import {
   Image,
 } from "@chakra-ui/react";
 import nextLink from "next/link";
-import { useState } from "react";
 
 type objectText = {
   title: string;

@@ -1,16 +1,4 @@
-import {
-  Box,
-  Grid,
-  GridItem,
-  Text,
-  Link,
-  HStack,
-  CardBody,
-  Stack,
-  Heading,
-  Card,
-  Image,
-} from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import nextLink from "next/link";
 import Playlist from "./playlists";
 
