@@ -5,9 +5,10 @@ import { Inter } from "next/font/google";
 import { Grid, GridItem } from "@chakra-ui/react";
 import nextLink from "next/link";
 
-import Navbar from "@/components/navbar";
-import Navigation from "@/components/navigation";
-import DefaultMainSection from "@/components/defaultMainSection";
+import Navbar from "@/components/Navbar";
+import Navigation from "@/components/Navigation";
+import DefaultMainSection from "@/components/MainSection/default";
+import MainSection from "@/components/MainSection";
 
 import querystring from "querystring";
 
@@ -15,6 +16,7 @@ export default function Home() {
   const router = useRouter();
   const [main, setMain] = useState(0);
 
+  // use redux please
   const access_token: string = router.query.user;
   const refresh_token: string = router.query.refresh;
 
@@ -51,7 +53,7 @@ export default function Home() {
             {/* navigation */}
             <Navigation />
             {/* main section */}
-            {main === 0 ? <DefaultMainSection /> : <></>}
+            {main === 0 ? <DefaultMainSection /> : <MainSection />}
           </GridItem>
         </Grid>
       </main>
