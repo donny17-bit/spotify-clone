@@ -49,7 +49,7 @@ export default function Home() {
           fontWeight="bold"
         >
           {/* left navbar */}
-          <Navbar />
+          <Navbar main={main} />
           {/* main */}
           <GridItem pt="2" pb="2" pe="2" bg="black" area={"main"}>
             {/* navigation */}
