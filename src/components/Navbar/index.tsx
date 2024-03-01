@@ -73,9 +73,15 @@ function Navbar(data: data) {
         </Button>
       </Box>
       {/* koleksi */}
-      <Box bg="#121212" p={5} color="white" borderRadius={"lg"} mt={2}>
+      <Box
+        bg="#121212"
+        color="white"
+        borderRadius={"lg"}
+        mt={2}
+        h={data.main === 1 ? "83vh" : "78vh"}
+      >
         {/* Koleksi */}
-        <HStack justify={"space-between"}>
+        <HStack justify={"space-between"} px={5} pt={5}>
           <Link as={nextLink} href="#" _hover={{ textDecoration: "none" }}>
             <HStack _hover={{ color: "white" }} color={"#A7A7A7"}>
               <Icon as={VscLibrary} boxSize={6} me={2} />
@@ -95,7 +101,9 @@ function Navbar(data: data) {
             <Icon as={FaPlus} boxSize={4} />
           </Button>
         </HStack>
-        {data.main === 1 ? <UserNavbar main={data.main} /> : <Guest />}
+        <Box px={3} pb={5}>
+          {data.main === 1 ? <UserNavbar main={data.main} /> : <Guest />}
+        </Box>
       </Box>
     </GridItem>
   );

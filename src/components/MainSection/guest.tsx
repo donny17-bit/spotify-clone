@@ -16,7 +16,7 @@ import nextLink from "next/link";
 function DefaultMainSection() {
   return (
     <Box
-      h="92%"
+      h="90vh"
       bgGradient="linear(to-b, #1E1E1E, #121212)"
       borderBottomRadius="lg"
       px={6}

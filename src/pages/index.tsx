@@ -45,7 +45,8 @@ export default function Home() {
         <Grid
           templateAreas={`"nav main"`}
           gridTemplateColumns={"25%"}
-          maxH="100%"
+          // maxH="100vh"
+          h="95vh"
           fontWeight="bold"
         >
           {/* left navbar */}
