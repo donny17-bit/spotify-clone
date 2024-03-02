@@ -31,15 +31,15 @@ const nextConfig = {
     return [
       {
         source: "/api/login",
-        destination: "/api/authentication/login",
+        destination: "/api/auth/login",
       },
       {
         source: "/api/callback",
-        destination: "/api/authentication/callback",
+        destination: "/api/auth/callback",
       },
       {
         source: "/api/refresh-token",
-        destination: "/api/authentication/refresh-token",
+        destination: "/api/auth/refresh-token",
       },
     ];
   },

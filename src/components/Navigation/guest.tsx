@@ -1,9 +1,15 @@
 import { Button, Icon, HStack } from "@chakra-ui/react";
 import querystring from "querystring";
 import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
 
 function Guest() {
   const router = useRouter();
+  const dispatch = useDispatch();
+
+  const login = useSelector((state) => state.auth);
+
+  // console.log(login);
 
   const loginBtn: Function = async () => {
     const client_id: string = "e529c8dfcf934586965b68bbd996f202";
