@@ -2,12 +2,10 @@ import axios from "axios";
 import { log } from "console";
 import Cookies from "js-cookie";
 
-// const axiosApiInstance = axios.create({
-//   //   baseURL: process.env.URL_BACKEND,
-//   baseURL: "",
-// });
-
-const axiosApiInstance = axios;
+const axiosApiInstance = axios.create({
+  //   baseURL: process.env.URL_BACKEND,
+  baseURL: "https://accounts.spotify.com/",
+});
 
 // Add a request interceptor
 axiosApiInstance.interceptors.request.use(

@@ -2,29 +2,23 @@ import { Button, Icon, HStack } from "@chakra-ui/react";
 import querystring from "querystring";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../store/action/auth";
 
 function Guest() {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const login = useSelector((state) => state.auth);
+  const loginState = useSelector((state) => state.auth);
 
+  // const result = await dispatch(login(form, asA));
   // console.log(login);
 
   const loginBtn: Function = async () => {
-    const client_id: string = "e529c8dfcf934586965b68bbd996f202";
-    const redirect_uri: string = "http://127.0.0.1:3000/api/callback";
-
-    const spotifyAuthUrl =
-      "https://accounts.spotify.com/authorize?" +
-      querystring.stringify({
-        response_type: "code",
-        client_id: client_id as string,
-        redirect_uri: redirect_uri as string,
-      });
-
     try {
-      router.push(spotifyAuthUrl);
+      const result = await dispatch(login());
+      console.log(result);
+
+      // router.push(spotifyAuthUrl);
     } catch (error) {
       console.error("Error to login", error);
     }

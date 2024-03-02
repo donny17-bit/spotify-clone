@@ -1,9 +1,10 @@
-import axios from "../../utils/axios";
+import axios from "../../utils/axiosSpotify";
 
-export const login = (form: any) => {
+export function login() {
   return {
     type: "LOGIN",
-    payload: axios.post(`/auth/user/login`, form),
-    // data: form,
+    payload: fetch("api/login"),
+    // payload: axios.get("api/login"),
+    // data: {},
   };
-};
+}

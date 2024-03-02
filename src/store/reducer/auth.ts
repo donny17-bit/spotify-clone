@@ -20,8 +20,10 @@ const auth = (state = initialState, action: any) => {
         ...state,
         isLoading: false,
         isError: false,
-        data: { ...action.payload.data.data },
-        msg: action.payload.data.msg,
+        // data: { ...action.payload.data.data },
+        data: { ...action.payload.url },
+        // data: { data: "this is data" },
+        msg: action.payload.data,
       };
 
     case "LOGIN_REJECTED":
