@@ -8,7 +8,7 @@ function Guest() {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const loginState = useSelector((state) => state.auth);
+  const loginState = useSelector((state: any) => state.auth);
 
   // const result = await dispatch(login(form, asA));
   // console.log(login);

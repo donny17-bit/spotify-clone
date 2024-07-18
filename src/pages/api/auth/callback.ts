@@ -3,6 +3,12 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { useRouter } from "next/navigation";
 import querystring from "querystring";
 
+type userAuthType = {
+  redirect_uri: string;
+  client_id: string;
+  client_secret: string;
+};
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -14,17 +20,15 @@ export default async function handler(
   const baseUrl = req.url?.split("?")[0];
   // const router = useRouter();
 
+  const userAuth: userAuthType = {
+    redirect_uri: redirect_uri,
+    client_id: client_id,
+    client_secret: client_secret,
+  };
+
   if (method === "GET") {
     if (baseUrl === "/api/callback") {
-      handleCallbackReq(
-        {
-          redirect_uri: redirect_uri,
-          client_id: client_id,
-          client_secret: client_secret,
-        },
-        req,
-        res
-      );
+      handleCallbackReq(userAuth, req, res);
     } else {
       // Unknown route
       res
@@ -40,17 +44,30 @@ export default async function handler(
 
 // callback
 async function handleCallbackReq(
-  query: any,
+  query: userAuthType,
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   const client_id: string = query.client_id;
   const client_secret: string = query.client_secret;
 
+  let code: string;
+  if (typeof req.query.code === "string") {
+    code = req.query.code; // Assign the string value directly
+  } else if (Array.isArray(req.query.code)) {
+    // If it's an array, take the first element as the value
+    code = ""; // Use nullish coalescing operator to handle undefined
+  } else {
+    // If it's neither a string nor an array, assign a default value
+    code = "";
+  }
+
+  // const code: string = req.query.code
+
   const credentials = `${client_id}:${client_secret}`;
 
   const formData = new URLSearchParams();
-  formData.append("code", req.query.code);
+  formData.append("code", code);
   formData.append("redirect_uri", query.redirect_uri);
   formData.append("grant_type", "authorization_code");
 

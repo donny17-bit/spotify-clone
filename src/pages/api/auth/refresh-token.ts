@@ -1,5 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
+type userAuthType = {
+  redirect_uri: string;
+  client_id: string;
+  client_secret: string;
+};
+
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   // Enable CORS for all origins
   // res.setHeader("Access-Control-Allow-Origin", "*");
@@ -15,17 +21,15 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const redirect_uri: string = "http://127.0.0.1:3000/api/callback";
   const baseUrl = req.url?.split("?")[0];
 
+  const userAuth: userAuthType = {
+    redirect_uri: redirect_uri,
+    client_id: client_id,
+    client_secret: client_secret,
+  };
+
   if (method === "GET") {
     if (baseUrl === "/api/refresh-token") {
-      handleRefreshTokenReq(
-        {
-          redirect_uri: redirect_uri,
-          client_id: client_id,
-          client_secret: client_secret,
-        },
-        req,
-        res
-      );
+      handleRefreshTokenReq(userAuth, req, res);
     } else {
       // Unknown route
       res
@@ -40,7 +44,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 }
 
 async function handleRefreshTokenReq(
-  query: any,
+  query: userAuthType,
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -48,11 +52,22 @@ async function handleRefreshTokenReq(
   const client_id: string = query.client_id;
   const client_secret: string = query.client_secret;
 
+  let refresh_token: string;
+  if (typeof req.query.refresh_token === "string") {
+    refresh_token = req.query.refresh_token; // Assign the string value directly
+  } else if (Array.isArray(req.query.refresh_token)) {
+    // If it's an array, take the first element as the value
+    refresh_token = ""; // Use nullish coalescing operator to handle undefined
+  } else {
+    // If it's neither a string nor an array, assign a default value
+    refresh_token = "";
+  }
+
   const credentials = `${client_id}:${client_secret}`;
 
   const formData = new URLSearchParams();
   formData.append("grant_type", "refresh_token");
-  formData.append("refresh_token", req.query.refresh_token);
+  formData.append("refresh_token", refresh_token);
 
   try {
     const response = await fetch(url, {

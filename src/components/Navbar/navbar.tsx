@@ -23,7 +23,7 @@ type data = {
 
 function Navbar(data: data) {
   return (
-    <GridItem p="2" bg="black" area={"nav"}>
+    <GridItem ps="2" pb="2" pt="2" bg="black" area={"nav"}>
       {/* Home */}
       <Box bg="#121212" p={5} color="white" borderRadius={"lg"}>
         {data.main === 1 ? (

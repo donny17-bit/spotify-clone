@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { Inter } from "next/font/google";
-import { Grid, GridItem } from "@chakra-ui/react";
+import { Box, Divider, Grid, GridItem } from "@chakra-ui/react";
 import nextLink from "next/link";
 
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/Navbar/navbar";
 import Navigation from "@/components/Navigation";
 import DefaultMainSection from "@/components/MainSection/guest";
 import MainSection from "@/components/MainSection/user";
@@ -17,8 +17,28 @@ export default function Home() {
   const [main, setMain] = useState(0); // check if user login or not
 
   // use redux please
-  const access_token: string = router.query.user;
-  const refresh_token: string = router.query.refresh;
+
+  let access_token: string;
+  if (typeof router.query.user === "string") {
+    access_token = router.query.user; // Assign the string value directly
+  } else if (Array.isArray(router.query.user)) {
+    // If it's an array, take the first element as the value
+    access_token = ""; // Use nullish coalescing operator to handle undefined
+  } else {
+    // If it's neither a string nor an array, assign a default value
+    access_token = "";
+  }
+
+  let refresh_token: string;
+  if (typeof router.query.refresh === "string") {
+    refresh_token = router.query.refresh; // Assign the string value directly
+  } else if (Array.isArray(router.query.refresh)) {
+    // If it's an array, take the first element as the value
+    refresh_token = ""; // Use nullish coalescing operator to handle undefined
+  } else {
+    // If it's neither a string nor an array, assign a default value
+    refresh_token = "";
+  }
 
   useEffect(() => {
     // Check if running on the client-side
@@ -43,7 +63,7 @@ export default function Home() {
       </Head>
       <main className=" h-[100vh] w-[100vw] bg-black">
         <Grid
-          templateAreas={`"nav main"`}
+          templateAreas={`"nav divider main"`}
           gridTemplateColumns={"25%"}
           // maxH="100vh"
           h="95vh"
@@ -51,6 +71,17 @@ export default function Home() {
         >
           {/* left navbar */}
           <Navbar main={main} />
+          <GridItem
+            pt="4"
+            px="1"
+            h={"98vh"}
+            pb="1"
+            area={"divider"}
+            opacity={"0"}
+            _hover={{ cursor: "ew-resize", opacity: "1" }}
+          >
+            <Divider orientation="vertical" />
+          </GridItem>
           {/* main */}
           <GridItem pt="2" pb="2" pe="2" bg="black" area={"main"}>
             {/* navigation */}
