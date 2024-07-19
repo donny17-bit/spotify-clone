@@ -15,6 +15,8 @@ import querystring from "querystring";
 export default function Home() {
   const router = useRouter();
   const [main, setMain] = useState(0); // check if user login or not
+  const [isResizing, setIsResizing] = useState(false);
+  const [width, setWidth] = useState("20vw");
 
   // use redux please
 
@@ -40,6 +42,35 @@ export default function Home() {
     refresh_token = "";
   }
 
+  const dividerDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.preventDefault();
+    setIsResizing(true);
+  };
+
+  const dividerUp = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.preventDefault();
+    setIsResizing(false);
+  };
+
+  const dividerMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.preventDefault();
+    if (!isResizing) {
+      return;
+    }
+
+    console.log(e.clientX);
+    const minWidth = 0.15 * window.outerWidth;
+    const maxWidth = 0.5 * window.innerWidth;
+
+    if (e.clientX < minWidth) {
+      setWidth(`${minWidth}px`);
+    } else if (e.clientX > maxWidth) {
+      setWidth(`${maxWidth}px`);
+    } else {
+      setWidth(`${e.clientX}px`);
+    }
+  };
+
   useEffect(() => {
     // Check if running on the client-side
     if (typeof window !== undefined) {
@@ -64,13 +95,13 @@ export default function Home() {
       <main className=" h-[100vh] w-[100vw] bg-black">
         <Grid
           templateAreas={`"nav divider main"`}
-          gridTemplateColumns={"25%"}
           // maxH="100vh"
           h="95vh"
           fontWeight="bold"
+          onMouseMove={(e) => dividerMove(e)}
         >
           {/* left navbar */}
-          <Navbar main={main} />
+          <Navbar main={main} width={width} />
           <GridItem
             pt="4"
             px="1"
@@ -78,7 +109,10 @@ export default function Home() {
             pb="1"
             area={"divider"}
             opacity={"0"}
+            resize={"horizontal"}
             _hover={{ cursor: "ew-resize", opacity: "1" }}
+            onMouseDown={(e) => dividerDown(e)}
+            onMouseUp={(e) => dividerUp(e)}
           >
             <Divider orientation="vertical" />
           </GridItem>

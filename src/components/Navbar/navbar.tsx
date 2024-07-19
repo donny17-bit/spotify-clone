@@ -19,11 +19,12 @@ import UserNavbar from "./user";
 
 type data = {
   main: number;
+  width: string;
 };
 
 function Navbar(data: data) {
   return (
-    <GridItem ps="2" pb="2" pt="2" bg="black" area={"nav"}>
+    <GridItem ps="2" pb="2" pt="2" bg="black" area={"nav"} w={data.width}>
       {/* Home */}
       <Box bg="#121212" p={5} color="white" borderRadius={"lg"}>
         {data.main === 1 ? (
