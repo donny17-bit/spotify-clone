@@ -26,7 +26,13 @@ function Navbar(data: data) {
   return (
     <GridItem ps="2" pb="2" pt="2" bg="black" area={"nav"} w={data.width}>
       {/* Home */}
-      <Box bg="#121212" p={5} color="white" borderRadius={"lg"}>
+      <Box
+        bg="#121212"
+        p={5}
+        color="white"
+        borderRadius={"lg"}
+        h={data.main == 0 ? "15vh" : "10vh"}
+      >
         {data.main === 1 ? (
           <></>
         ) : (
@@ -79,7 +85,7 @@ function Navbar(data: data) {
         color="white"
         borderRadius={"lg"}
         mt={2}
-        h={data.main === 1 ? "83vh" : "78vh"}
+        h={data.main === 1 ? "87vh" : "82vh"}
       >
         {/* Koleksi */}
         <HStack justify={"space-between"} px={5} pt={5}>

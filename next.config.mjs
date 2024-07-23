@@ -11,7 +11,7 @@ const nextConfig = {
   //         // Allow for specific domains to have access or * for all
   //         {
   //           key: "Access-Control-Allow-Origin",
-  //           value: "http://127.0.0.1:3000/:path*",
+  //           value: "*",
   //         },
   //         // Allows for specific methods accepted
   //         {

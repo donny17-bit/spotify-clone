@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 // import NextCors from "nextjs-cors";
 import { useRouter } from "next/navigation";
 import querystring from "querystring";
+import axios from "@/utils/axiosSpotify";
 
 type userAuthType = {
   redirect_uri: string;
@@ -62,47 +63,42 @@ async function handleCallbackReq(
     code = "";
   }
 
-  // const code: string = req.query.code
-
   const credentials = `${client_id}:${client_secret}`;
 
-  const formData = new URLSearchParams();
-  formData.append("code", code);
-  formData.append("redirect_uri", query.redirect_uri);
-  formData.append("grant_type", "authorization_code");
+  const form = {
+    code: code,
+    redirect_uri: query.redirect_uri,
+    grant_type: "authorization_code",
+  };
 
-  const response = await fetch("https://accounts.spotify.com/api/token", {
-    method: "POST",
+  const config = {
     headers: {
-      "content-type": "application/x-www-form-urlencoded",
+      "Content-Type": "application/x-www-form-urlencoded",
       Authorization: "Basic " + Buffer.from(credentials).toString("base64"),
     },
-    body: formData.toString(),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
+  };
 
-      return response.json();
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-      res.status(500).json({ error: "Internal Server Error" });
-    });
+  const response = await axios.post("api/token", form, config);
 
-  const data = response;
-
-  // res.status(200).json({ data: data.access_token, message: "success" });
+  // res
+  //   .status(200)
+  //   .json({ data: response.data, message: "success login", status: 200 });
   res
-    .status(302)
-    .setHeader(
-      "Location",
-      "http://127.0.0.1:3000/?" +
-        querystring.stringify({
-          user: data.access_token,
-          refresh: data.refresh_token,
-        })
-    )
-    .end();
+    .redirect("/")
+    .json({ data: response.data, message: "success login", status: 200 });
+  // res.status(302).setHeader("Location", "http://127.0.0.1:3000/");
+
+  // res.status(302).setHeader("Location", "http://127.0.0.1:3000/");
+
+  // res
+  //   .status(302)
+  //   .setHeader(
+  //     "Location",
+  //     "http://127.0.0.1:3000/?" +
+  //       querystring.stringify({
+  //         user: data.access_token,
+  //         refresh: data.refresh_token,
+  //       })
+  //   )
+  res.end();
 }

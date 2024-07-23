@@ -14,6 +14,7 @@
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "axios": "^1.6.7",
+    "cors": "^2.8.5",
     "framer-motion": "^11.0.6",
     "js-cookie": "^3.0.5",
     "next": "14.1.0",
@@ -28,6 +29,7 @@
     "redux-promise-middleware": "^6.2.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^18",

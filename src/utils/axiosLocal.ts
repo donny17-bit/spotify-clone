@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 const axiosApiInstance = axios.create({
   //   baseURL: process.env.URL_BACKEND,
   // baseURL: "/",
-  baseURL: "https://accounts.spotify.com/",
+  baseURL: "/",
   headers: {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers": "Content-Type, Authorization",
@@ -53,7 +53,6 @@ axiosApiInstance.interceptors.response.use(
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
     // response.headers.set("Access-Control-Allow-Origin", "*");
-    // console.log(response);
     return response;
   },
   function (error) {
@@ -81,7 +80,7 @@ axiosApiInstance.interceptors.response.use(
     //   }
     // }
 
-    console.log("error in axios spotify");
+    console.log("error in axios local");
     // console.log(error);
     return Promise.reject(error);
   }

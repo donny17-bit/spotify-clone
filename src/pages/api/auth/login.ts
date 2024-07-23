@@ -1,27 +1,22 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import querystring from "querystring";
-import NextCors from "nextjs-cors";
-import { useRouter } from "next/navigation";
 import axios from "../../../utils/axiosSpotify";
+import { redirect } from "next/navigation";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  // Enable CORS for all origins
-  // res.setHeader("Access-Control-Allow-Origin", "*");
-  // res.setHeader(
-  //   "Access-Control-Allow-Methods",
-  //   "GET, POST, PUT, DELETE, OPTIONS"
-  // );
-  // res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-
   const { method } = req;
   const client_id: string = "e529c8dfcf934586965b68bbd996f202";
-  const redirect_uri: string = "http://127.0.0.1:3000/api/callback";
+  const client_secret: string = "f405192d372346619a2a4f631092ba90";
+  const redirect_uri: string = "http://127.0.0.1:3000/";
   const baseUrl = req.url?.split("?")[0];
+  const code = req.query.code;
 
   if (method === "GET") {
-    if (baseUrl === "/api/login") {
+    if (baseUrl === "/api/login" && code === undefined) {
       // Handle GET request for the login route
       handleLoginReq({ client_id, redirect_uri }, res);
+    } else if (code !== undefined) {
+      handleCallback({ code, client_id, client_secret, redirect_uri }, res);
     } else {
       // Unknown route
       res
@@ -35,12 +30,28 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-async function handleLoginReq(
-  query: any,
-  res: NextApiResponse
-  // req: NextApiRequest
-) {
-  // const router = useRouter();
+async function handleCallback(query: any, res: NextApiResponse) {
+  const credentials = `${query.client_id}:${query.client_secret}`;
+
+  const config = {
+    headers: {
+      "content-type": "application/x-www-form-urlencoded",
+      Authorization: "Basic " + Buffer.from(credentials).toString("base64"),
+    },
+  };
+
+  const form = {
+    code: query.code,
+    redirect_uri: query.redirect_uri,
+    grant_type: "authorization_code",
+  };
+
+  const response = await axios.post("api/token", form, config);
+  res.json({ data: response.data, message: "success login", status: 200 });
+  res.end();
+}
+
+async function handleLoginReq(query: any, res: NextApiResponse) {
   const queryParam = querystring.stringify({
     response_type: "code",
     client_id: query.client_id as string,
@@ -49,30 +60,12 @@ async function handleLoginReq(
 
   const response = await axios.get("authorize?" + queryParam);
   const redirectUrl = response.request.res.responseUrl;
-  // console.log(response.request.res.responseUrl);
 
-  // const spotifyAuthUrl =
-  //   "https://accounts.spotify.com/authorize?" +
-  //   querystring.stringify({
-  //     response_type: "code",
-  //     client_id: query.client_id as string,
-  //     redirect_uri: query.redirect_uri as string,
-  //   });
-
-  // Set the status code to 302 Found
-  // res.status(302).setHeader("Location", spotifyAuthUrl).end();
-  // router.push(spotifyAuthUrl);
-  // return response;
-  // res.status(200);
-  res.statusMessage = "berhasil";
   res.json({
-    json: "this is json",
+    status: 302,
+    // data: { redirect: "https://accounts.spotify.com/authorize?" + queryParam },
+    data: { redirectUrl: redirectUrl },
+    message: "redirect to spotify login page",
   });
-  // res.json({
-  //   status: 302,
-  //   data: { redirectUrl: redirectUrl },
-  //   message: "redirect to spotify login page",
-  // });
   res.end();
-  // res.status(302).json({ message: "redirect to spotify login page" });
 }

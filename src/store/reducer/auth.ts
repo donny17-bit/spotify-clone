@@ -20,10 +20,8 @@ const auth = (state = initialState, action: any) => {
         ...state,
         isLoading: false,
         isError: false,
-        // data: { ...action.payload.data.data },
-        data: { ...action.payload.url },
-        // data: { data: "this is data" },
-        msg: action.payload.data,
+        data: { ...action.payload.data },
+        msg: action.payload.data.message,
       };
 
     case "LOGIN_REJECTED":
@@ -31,7 +29,7 @@ const auth = (state = initialState, action: any) => {
         ...state,
         isLoading: false,
         isError: true,
-        msg: action.payload.response.data.msg,
+        msg: action.payload.data.message,
       };
 
     case "LOGOUT_PENDING":

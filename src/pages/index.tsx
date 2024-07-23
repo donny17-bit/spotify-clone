@@ -6,11 +6,9 @@ import { Box, Divider, Grid, GridItem } from "@chakra-ui/react";
 import nextLink from "next/link";
 
 import Navbar from "@/components/Navbar/navbar";
-import Navigation from "@/components/Navigation";
+import Navigation from "@/components/Navigation/navigation";
 import DefaultMainSection from "@/components/MainSection/guest";
 import MainSection from "@/components/MainSection/user";
-
-import querystring from "querystring";
 
 export default function Home() {
   const router = useRouter();
@@ -58,7 +56,6 @@ export default function Home() {
       return;
     }
 
-    console.log(e.clientX);
     const minWidth = 0.15 * window.outerWidth;
     const maxWidth = 0.5 * window.innerWidth;
 
@@ -71,19 +68,19 @@ export default function Home() {
     }
   };
 
-  useEffect(() => {
-    // Check if running on the client-side
-    if (typeof window !== undefined) {
-      if (access_token != undefined) {
-        localStorage.setItem("access_token", access_token);
-        setMain(1);
-      }
-      if (access_token != undefined) {
-        localStorage.setItem("refresh_token", refresh_token);
-        setMain(1);
-      }
-    }
-  }, [access_token, refresh_token]);
+  // useEffect(() => {
+  //   // Check if running on the client-side
+  //   if (typeof window !== undefined) {
+  //     if (access_token != undefined) {
+  //       localStorage.setItem("access_token", access_token);
+  //       setMain(1);
+  //     }
+  //     if (access_token != undefined) {
+  //       localStorage.setItem("refresh_token", refresh_token);
+  //       setMain(1);
+  //     }
+  //   }
+  // }, [access_token, refresh_token]);
 
   const [data, setData] = useState(null);
 
@@ -102,6 +99,7 @@ export default function Home() {
         >
           {/* left navbar */}
           <Navbar main={main} width={width} />
+          {/* divider */}
           <GridItem
             pt="4"
             px="1"
@@ -118,7 +116,7 @@ export default function Home() {
           </GridItem>
           {/* main */}
           <GridItem pt="2" pb="2" pe="2" bg="black" area={"main"}>
-            {/* navigation */}
+            {/* top navigation */}
             <Navigation login={main} />
             {/* main section */}
             {main === 0 ? <DefaultMainSection /> : <MainSection />}
