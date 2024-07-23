@@ -56,6 +56,8 @@ export default function Home() {
     if (access_token) {
       setIsLogin(true);
       getUserProfile(access_token);
+    } else {
+      setIsLogin(false);
     }
   }, [access_token]);
 

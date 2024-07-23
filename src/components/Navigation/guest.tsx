@@ -16,7 +16,7 @@ function Guest() {
     router.push("/");
     const result = await axios.get(`api/login?code=${code}`);
     localStorage.setItem("access_token", result.data.data.access_token);
-    localStorage.setItem("resfresh_token", result.data.data.refresh_token);
+    localStorage.setItem("refresh_token", result.data.data.refresh_token);
     router.push("/");
   };
 

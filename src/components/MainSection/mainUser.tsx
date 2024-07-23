@@ -6,8 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 function MainUser() {
   const userState = useSelector((state: any) => state.user);
-
-  console.log(userState.data);
   const displayName = userState.data.display_name;
 
   return (
