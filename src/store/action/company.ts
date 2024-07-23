@@ -1,4 +1,4 @@
-import axios from "../../utils/axios";
+import axios from "../../utils/axiosApiSpotify";
 
 export const getCompanyById = (id: any) => {
   return {

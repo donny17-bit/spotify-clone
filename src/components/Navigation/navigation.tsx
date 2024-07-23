@@ -4,7 +4,7 @@ import User from "./user";
 import Guest from "./guest";
 
 type data = {
-  login: number;
+  isLogin: boolean;
 };
 
 function Navigation(data: data) {
@@ -12,7 +12,7 @@ function Navigation(data: data) {
     <HStack
       justify={"space-between"}
       h="8%"
-      bg={data.login === 1 ? "#1E1E1E" : "#121212"}
+      bg={data.isLogin ? "#1E1E1E" : "#121212"}
       // {data.login === 1 ? {bg='#1E1E1E'} : {bg="#121212"}}
       borderTopRadius="lg"
       px={8}
@@ -39,7 +39,7 @@ function Navigation(data: data) {
           <Icon as={IoIosArrowForward} boxSize={6} />
         </Button>
       </HStack>
-      {data.login === 1 ? <User /> : <Guest />}
+      {data.isLogin ? <User /> : <Guest />}
     </HStack>
   );
 }

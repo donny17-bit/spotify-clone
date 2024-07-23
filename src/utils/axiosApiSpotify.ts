@@ -2,42 +2,46 @@ import axios from "axios";
 import { log } from "console";
 import Cookies from "js-cookie";
 
-// const axiosApiInstance = axios.create({
-//   //   baseURL: process.env.URL_BACKEND,
-//   baseURL: "",
-// });
-
-const axiosApiInstance = axios;
+const axiosApiInstance = axios.create({
+  //   baseURL: process.env.URL_BACKEND,
+  // baseURL: "/",
+  baseURL: "https://api.spotify.com/v1/",
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+  },
+});
 
 // Add a request interceptor
-axiosApiInstance.interceptors.request.use(
-  function (config) {
-    // Do something before request is sent
-    // config.headers.set(
-    //   "Authorization",
-    //   `Bearer ${Cookies.get("access_token")}`,
-    // );
+// axiosApiInstance.interceptors.request.use(
+//   function (config) {
+//     // Do something before request is sent
+//     // config.headers.set(
+//     //   "Authorization",
+//     //   `Bearer ${Cookies.get("access_token")}`,
+//     // );
 
-    config.headers.set("Access-Control-Allow-Origin", "*");
-    // config.headers.set(
-    //   "Access-Control-Allow-Methods",
-    //   "GET, POST, PUT, DELETE, OPTIONS"
-    // );
-    // config.headers.set(
-    //   "Access-Control-Allow-Headers",
-    //   "Content-Type, Authorization"
-    // );
+//     config.headers.set("Access-Control-Allow-Origin", "*");
+//     // config.headers.set(
+//     //   "Access-Control-Allow-Methods",
+//     //   "GET, POST, PUT, DELETE, OPTIONS"
+//     // );
+//     // config.headers.set(
+//     //   "Access-Control-Allow-Headers",
+//     //   "Content-Type, Authorization"
+//     // );
 
-    // config.headers = {
-    //   Authorization: `Bearer ${Cookies.get("token")}`,
-    // };
-    return config;
-  },
-  function (error) {
-    // Do something with request error
-    return Promise.reject(error);
-  }
-);
+//     // config.headers = {
+//     //   Authorization: `Bearer ${Cookies.get("token")}`,
+//     // };
+//     return config;
+//   },
+//   function (error) {
+//     // Do something with request error
+//     return Promise.reject(error);
+//   }
+// );
 
 // Add a response interceptor
 axiosApiInstance.interceptors.response.use(
@@ -73,7 +77,6 @@ axiosApiInstance.interceptors.response.use(
     // }
 
     console.log("error in axios");
-
     return Promise.reject(error);
   }
 );

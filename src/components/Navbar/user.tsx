@@ -12,14 +12,14 @@ import {
 import ListPlaylist from "../ListPlaylist";
 
 type data = {
-  main: number;
+  isLogin: boolean;
 };
 
 function UserNavbar(data: data) {
   return (
     <Box
       mt={5}
-      h={data.main === 1 ? "73vh" : "68vh"}
+      h={data.isLogin ? "73vh" : "68vh"}
       _hover={{ overflowY: "auto" }}
       overflowY={"hidden"}
     >

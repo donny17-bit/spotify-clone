@@ -2,7 +2,14 @@ import { Box } from "@chakra-ui/react";
 import nextLink from "next/link";
 import Playlist from "./playlists";
 
-function MainSection() {
+import { useDispatch, useSelector } from "react-redux";
+
+function MainUser() {
+  const userState = useSelector((state: any) => state.user);
+
+  console.log(userState.data);
+  const displayName = userState.data.display_name;
+
   return (
     <Box
       maxH="90vh"
@@ -12,7 +19,7 @@ function MainSection() {
       // _hover={{ overflowY: "auto" }}
       overflowY={"auto"}
     >
-      <Playlist title="Dibuat untuk __name__" py={4} />
+      <Playlist title={`Dibuat untuk ${displayName}`} py={4} />
       <Playlist title="Hit terpopuler hari ini" py={5} />
       <Playlist title="Hit terpopuler hari ini" py={5} />
       <Playlist title="Hit terpopuler hari ini" py={5} />
@@ -20,4 +27,4 @@ function MainSection() {
   );
 }
 
-export default MainSection;
+export default MainUser;

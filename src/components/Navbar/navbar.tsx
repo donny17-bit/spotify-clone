@@ -18,7 +18,7 @@ import Guest from "./guest";
 import UserNavbar from "./user";
 
 type data = {
-  main: number;
+  isLogin: boolean;
   width: string;
 };
 
@@ -31,9 +31,9 @@ function Navbar(data: data) {
         p={5}
         color="white"
         borderRadius={"lg"}
-        h={data.main == 0 ? "15vh" : "10vh"}
+        h={!data.isLogin ? "15vh" : "10vh"}
       >
-        {data.main === 1 ? (
+        {data.isLogin ? (
           <></>
         ) : (
           <Link as={nextLink} href="/" _hover={{ textDecoration: "none" }}>
@@ -47,7 +47,7 @@ function Navbar(data: data) {
         <Button
           variant={"link"}
           w="100%"
-          mt={data.main === 1 ? 0 : 4}
+          mt={data.isLogin ? 0 : 4}
           mb={4}
           _hover={{ textDecor: "none" }}
           as={nextLink}
@@ -85,7 +85,7 @@ function Navbar(data: data) {
         color="white"
         borderRadius={"lg"}
         mt={2}
-        h={data.main === 1 ? "87vh" : "82vh"}
+        h={data.isLogin ? "87vh" : "82vh"}
       >
         {/* Koleksi */}
         <HStack justify={"space-between"} px={5} pt={5}>
@@ -109,7 +109,7 @@ function Navbar(data: data) {
           </Button>
         </HStack>
         <Box px={3} pb={5}>
-          {data.main === 1 ? <UserNavbar main={data.main} /> : <Guest />}
+          {data.isLogin ? <UserNavbar isLogin={data.isLogin} /> : <Guest />}
         </Box>
       </Box>
     </GridItem>

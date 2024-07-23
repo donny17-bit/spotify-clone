@@ -10,7 +10,6 @@ function Guest() {
   const router = useRouter();
   const dispatch = useDispatch();
   const loginState = useSelector((state: any) => state.auth);
-  // const [code, setCode] = useState(router.query.code);
   const { code } = router.query;
 
   const loginHandler = async (code: any) => {
@@ -18,6 +17,7 @@ function Guest() {
     const result = await axios.get(`api/login?code=${code}`);
     localStorage.setItem("access_token", result.data.data.access_token);
     localStorage.setItem("resfresh_token", result.data.data.refresh_token);
+    router.push("/");
   };
 
   if (code !== undefined) {

@@ -1,44 +1,24 @@
 import { useState, useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { Inter } from "next/font/google";
+import { useDispatch, useSelector } from "react-redux";
 import { Box, Divider, Grid, GridItem } from "@chakra-ui/react";
-import nextLink from "next/link";
 
+import { getUser } from "@/store/action/user";
 import Navbar from "@/components/Navbar/navbar";
 import Navigation from "@/components/Navigation/navigation";
 import DefaultMainSection from "@/components/MainSection/guest";
-import MainSection from "@/components/MainSection/user";
+import MainUser from "@/components/MainSection/mainUser";
+import axios from "@/utils/axiosLocal";
 
 export default function Home() {
   const router = useRouter();
-  const [main, setMain] = useState(0); // check if user login or not
+  const dispatch = useDispatch();
+
+  const [isLogin, setIsLogin] = useState(false); // check if user login or not
   const [isResizing, setIsResizing] = useState(false);
   const [width, setWidth] = useState("20vw");
-
-  // use redux please
-
-  let access_token: string;
-  if (typeof router.query.user === "string") {
-    access_token = router.query.user; // Assign the string value directly
-  } else if (Array.isArray(router.query.user)) {
-    // If it's an array, take the first element as the value
-    access_token = ""; // Use nullish coalescing operator to handle undefined
-  } else {
-    // If it's neither a string nor an array, assign a default value
-    access_token = "";
-  }
-
-  let refresh_token: string;
-  if (typeof router.query.refresh === "string") {
-    refresh_token = router.query.refresh; // Assign the string value directly
-  } else if (Array.isArray(router.query.refresh)) {
-    // If it's an array, take the first element as the value
-    refresh_token = ""; // Use nullish coalescing operator to handle undefined
-  } else {
-    // If it's neither a string nor an array, assign a default value
-    refresh_token = "";
-  }
+  const access_token = localStorage.getItem("access_token");
 
   const dividerDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault();
@@ -68,21 +48,16 @@ export default function Home() {
     }
   };
 
-  // useEffect(() => {
-  //   // Check if running on the client-side
-  //   if (typeof window !== undefined) {
-  //     if (access_token != undefined) {
-  //       localStorage.setItem("access_token", access_token);
-  //       setMain(1);
-  //     }
-  //     if (access_token != undefined) {
-  //       localStorage.setItem("refresh_token", refresh_token);
-  //       setMain(1);
-  //     }
-  //   }
-  // }, [access_token, refresh_token]);
+  const getUserProfile = async (access_token: string) => {
+    await dispatch(getUser(access_token));
+  };
 
-  const [data, setData] = useState(null);
+  useEffect(() => {
+    if (access_token) {
+      setIsLogin(true);
+      getUserProfile(access_token);
+    }
+  }, [access_token]);
 
   return (
     <>
@@ -98,7 +73,7 @@ export default function Home() {
           onMouseMove={(e) => dividerMove(e)}
         >
           {/* left navbar */}
-          <Navbar main={main} width={width} />
+          <Navbar isLogin={isLogin} width={width} />
           {/* divider */}
           <GridItem
             pt="4"
@@ -117,9 +92,9 @@ export default function Home() {
           {/* main */}
           <GridItem pt="2" pb="2" pe="2" bg="black" area={"main"}>
             {/* top navigation */}
-            <Navigation login={main} />
+            <Navigation isLogin={isLogin} />
             {/* main section */}
-            {main === 0 ? <DefaultMainSection /> : <MainSection />}
+            {isLogin ? <MainUser /> : <DefaultMainSection />}
           </GridItem>
         </Grid>
       </main>

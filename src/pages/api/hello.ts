@@ -1,7 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+// Api sample
+
 import type { NextApiRequest, NextApiResponse } from "next";
 import { redirect } from "next/navigation";
-import cors from "@/utils/cors";
 
 type Data = {
   name: string;
