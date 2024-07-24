@@ -7,11 +7,11 @@ export default async function handler(
 ) {
   const { method } = req;
   const { authorization } = req.headers;
-  const { limit, offset } = req.query;
+  const { limit, offset, locale } = req.query;
 
   if (method === "GET") {
     const result = await axios.get(
-      `me/top/artists?time_range=medium_term&limit=${limit}&offset=${offset}`,
+      `browse/featured-playlists?locale=${locale}&limit=${limit}&offset=${offset}`,
       {
         headers: {
           Authorization: `${authorization}`,
@@ -20,7 +20,7 @@ export default async function handler(
     );
     res.json({
       data: result.data,
-      message: "success get user's top artist",
+      message: "success get featured playlist",
       status: 200,
     });
   } else {

@@ -21,3 +21,22 @@ export function getUserTopArtist(
     }),
   };
 }
+
+export function getFeaturedPlaylist(
+  access_token: string,
+  limit: number,
+  offset: number,
+  locale: string
+) {
+  return {
+    type: "FEATURED",
+    payload: axios.get(
+      `api/featuredPlaylist?locale=${locale}&limit=${limit}&offset=${offset}`,
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    ),
+  };
+}
