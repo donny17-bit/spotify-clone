@@ -12,13 +12,35 @@ import {
   Image,
 } from "@chakra-ui/react";
 import nextLink from "next/link";
+import { useDispatch, useSelector } from "react-redux";
 
 type objectText = {
   title: string;
   py: number;
 };
 
+type image = {
+  height: number;
+  url: string;
+  width: number;
+};
+
+type items = {
+  external_url: object;
+  followers: object;
+  images: image[];
+  name: string;
+  popularity: number;
+  type: string;
+  uri: string;
+  genres: string[];
+};
+
 function Playlist(text: objectText) {
+  const userArtistState = useSelector((state: any) => state.userArtist);
+  const topArtist = userArtistState.data.items;
+  console.log("user artis : ", topArtist);
+
   return (
     <Box py={text.py}>
       <HStack justify={"space-between"} pb={3}>
@@ -29,112 +51,40 @@ function Playlist(text: objectText) {
           Tampilkan semua
         </Link>
       </HStack>
-      <Grid templateColumns="repeat(5, 1fr)" gap={3}>
-        <GridItem w="100%">
-          <Link as={nextLink} href="#">
-            <Card bgColor={"#171717"} _hover={{ bgColor: "#242424" }}>
-              <CardBody p={3}>
-                <Image
-                  src="/cover/spotify-cover-1.png"
-                  alt="First-love-img"
-                  borderRadius={"lg"}
-                />
-                <Stack mt="3">
-                  <Heading fontSize={17} color={"white"}>
-                    First Love
-                  </Heading>
-                  <Text color={"#bfbdbd"} fontSize={13}>
-                    Embark on a soul-stirring journey through the ench...
-                  </Text>
-                </Stack>
-              </CardBody>
-            </Card>
-          </Link>
-        </GridItem>
-        <GridItem w="100%">
-          <Link as={nextLink} href="#">
-            <Card bgColor={"#171717"} _hover={{ bgColor: "#242424" }}>
-              <CardBody p={3}>
-                <Image
-                  src="/cover/spotify-cover-4.png"
-                  alt="down-in-the-ville-img"
-                  borderRadius={"lg"}
-                />
-                <Stack mt="3">
-                  <Heading fontSize={17} color={"white"}>
-                    Rap Realms
-                  </Heading>
-                  <Text color={"#bfbdbd"} fontSize={13}>
-                    Dive into our Spotify rap playlist, Where beats bump....
-                  </Text>
-                </Stack>
-              </CardBody>
-            </Card>
-          </Link>
-        </GridItem>
-        <GridItem w="100%">
-          <Link as={nextLink} href="#">
-            <Card bgColor={"#171717"} _hover={{ bgColor: "#242424" }}>
-              <CardBody p={3}>
-                <Image
-                  src="/cover/spotify-cover-8.png"
-                  alt="Study-Struggle-img"
-                  borderRadius={"lg"}
-                />
-                <Stack mt="3">
-                  <Heading fontSize={17} color={"white"}>
-                    Study Struggle
-                  </Heading>
-                  <Text color={"#bfbdbd"} fontSize={13}>
-                    Pop Pleasures: Tune into the Catchiest Hits!
-                  </Text>
-                </Stack>
-              </CardBody>
-            </Card>
-          </Link>
-        </GridItem>
-        <GridItem w="100%">
-          <Link as={nextLink} href="#">
-            <Card bgColor={"#171717"} _hover={{ bgColor: "#242424" }}>
-              <CardBody p={3}>
-                <Image
-                  src="/cover/spotify-cover-3.png"
-                  alt="Techno-anthem-img"
-                  borderRadius={"lg"}
-                />
-                <Stack mt="3">
-                  <Heading fontSize={17} color={"white"}>
-                    Techno Anthem
-                  </Heading>
-                  <Text color={"#bfbdbd"} fontSize={13}>
-                    Experience the ultimate Techno thrill with our playlist
-                  </Text>
-                </Stack>
-              </CardBody>
-            </Card>
-          </Link>
-        </GridItem>
-        <GridItem w="100%">
-          <Link as={nextLink} href="#">
-            <Card bgColor={"#171717"} _hover={{ bgColor: "#242424" }}>
-              <CardBody p={3}>
-                <Image
-                  src="/cover/spotify-cover-6.png"
-                  alt="rnb-90-img"
-                  borderRadius={"lg"}
-                />
-                <Stack mt="3">
-                  <Heading fontSize={17} color={"white"}>
-                    90's RnB
-                  </Heading>
-                  <Text color={"#bfbdbd"} fontSize={13}>
-                    Step back into the smooth of the 90s with our R&B playlist
-                  </Text>
-                </Stack>
-              </CardBody>
-            </Card>
-          </Link>
-        </GridItem>
+      <Grid templateColumns="repeat(6, 1fr)" gap={3}>
+        {/* album cover */}
+        {topArtist.map((item: items, i: number) => (
+          <>
+            <GridItem key={i}>
+              <Link as={nextLink} href="#">
+                <Card
+                  bgColor={"#171717"}
+                  _hover={{ bgColor: "#242424" }}
+                  h={"100%"}
+                  w={"100%"}
+                >
+                  <CardBody p={3} h="100%" w="100%">
+                    <Image
+                      src={item.images[0].url}
+                      aspectRatio={"1/1"}
+                      objectFit={"cover"}
+                      alt={item.name}
+                      borderRadius={"lg"}
+                    />
+                    <Stack mt="3">
+                      <Heading fontSize={17} color={"white"} noOfLines={1}>
+                        {item.name}
+                      </Heading>
+                      <Text color={"#bfbdbd"} fontSize={13} noOfLines={2}>
+                        {item.genres.join(", ")}
+                      </Text>
+                    </Stack>
+                  </CardBody>
+                </Card>
+              </Link>
+            </GridItem>
+          </>
+        ))}
       </Grid>
     </Box>
   );

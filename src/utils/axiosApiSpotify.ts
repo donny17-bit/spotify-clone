@@ -14,34 +14,15 @@ const axiosApiInstance = axios.create({
 });
 
 // Add a request interceptor
-// axiosApiInstance.interceptors.request.use(
-//   function (config) {
-//     // Do something before request is sent
-//     // config.headers.set(
-//     //   "Authorization",
-//     //   `Bearer ${Cookies.get("access_token")}`,
-//     // );
-
-//     config.headers.set("Access-Control-Allow-Origin", "*");
-//     // config.headers.set(
-//     //   "Access-Control-Allow-Methods",
-//     //   "GET, POST, PUT, DELETE, OPTIONS"
-//     // );
-//     // config.headers.set(
-//     //   "Access-Control-Allow-Headers",
-//     //   "Content-Type, Authorization"
-//     // );
-
-//     // config.headers = {
-//     //   Authorization: `Bearer ${Cookies.get("token")}`,
-//     // };
-//     return config;
-//   },
-//   function (error) {
-//     // Do something with request error
-//     return Promise.reject(error);
-//   }
-// );
+axiosApiInstance.interceptors.request.use(
+  function (config) {
+    return config;
+  },
+  function (error) {
+    // Do something with request error
+    return Promise.reject(error);
+  }
+);
 
 // Add a response interceptor
 axiosApiInstance.interceptors.response.use(
@@ -76,7 +57,7 @@ axiosApiInstance.interceptors.response.use(
     //   }
     // }
 
-    console.log("error in axios");
+    console.log("error in axios api spotify");
     return Promise.reject(error);
   }
 );

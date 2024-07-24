@@ -5,16 +5,16 @@ const initialState = {
   msg: "",
 };
 
-const user = (state = initialState, action: any) => {
+const userArtist = (state = initialState, action: any) => {
   switch (action.type) {
-    case "USER_PENDING":
+    case "USERARTIST_PENDING":
       return {
         ...state,
         isError: false,
         isLoading: true,
       };
 
-    case "USER_FULFILLED":
+    case "USERARTIST_FULFILLED":
       return {
         ...state,
         isLoading: false,
@@ -23,7 +23,7 @@ const user = (state = initialState, action: any) => {
         msg: action.payload.data.message,
       };
 
-    case "USER_REJECTED":
+    case "USERARTIST_REJECTED":
       return {
         ...state,
         isLoading: false,
@@ -36,4 +36,4 @@ const user = (state = initialState, action: any) => {
   }
 };
 
-export default user;
+export default userArtist;

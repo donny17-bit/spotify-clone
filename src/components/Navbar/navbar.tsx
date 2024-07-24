@@ -10,12 +10,13 @@ import {
 
 import nextLink from "next/link";
 import { FaSpotify } from "react-icons/fa";
-import { GoHome } from "react-icons/go";
+import { GoHome, GoHomeFill } from "react-icons/go";
 import { CiSearch } from "react-icons/ci";
 import { VscLibrary } from "react-icons/vsc";
 import { FaPlus } from "react-icons/fa6";
 import Guest from "./guest";
 import UserNavbar from "./user";
+import { useRouter } from "next/router";
 
 type data = {
   isLogin: boolean;
@@ -23,6 +24,8 @@ type data = {
 };
 
 function Navbar(data: data) {
+  const router = useRouter();
+
   return (
     <GridItem ps="2" pb="2" pt="2" bg="black" area={"nav"} w={data.width}>
       {/* Home */}
@@ -44,6 +47,7 @@ function Navbar(data: data) {
           </Link>
         )}
 
+        {/* home button */}
         <Button
           variant={"link"}
           w="100%"
@@ -61,7 +65,7 @@ function Navbar(data: data) {
             fontSize={16}
             _hover={{ color: "white" }}
           >
-            <Icon as={GoHome} boxSize={7} me={5} />
+            <Icon as={GoHomeFill} boxSize={7} me={5} />
             Home
           </Text>
         </Button>

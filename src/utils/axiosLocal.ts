@@ -16,36 +16,21 @@ const axiosApiInstance = axios.create({
 // axiosApiInstance.request(config);
 
 // Add a request interceptor
-// axiosApiInstance.interceptors.request.use(
-//   function (config) {
-//     // Do something before request is sent
-//     // config.headers.set(
-//     //   "Authorization",
-//     //   `Bearer ${Cookies.get("access_token")}`,
-//     // );
-
-//     config.headers.set("Access-Control-Allow-Origin", "*");
-//     config.headers.set(
-//       "Access-Control-Allow-Methods",
-//       "GET, POST, PUT, DELETE, OPTIONS"
-//     );
-//     config.headers.set(
-//       "Access-Control-Allow-Headers",
-//       "Content-Type, Authorization"
-//     );
-
-//     // config.headers = {
-//     //   Authorization: `Bearer ${Cookies.get("token")}`,
-//     // };
-//     console.log(config);
-//     return config;
-//   },
-//   function (error) {
-//     // Do something with request error
-//     console.log(error);
-//     return Promise.reject(error);
-//   }
-// );
+axiosApiInstance.interceptors.request.use(
+  function (config) {
+    // Do something before request is sent
+    // config.headers.Authorization = `Bearer ${localStorage.getItem(
+    //   "access_token"
+    // )}`;
+    return config;
+  },
+  function (error) {
+    // Do something with request error
+    console.log("error in axios local request");
+    console.log(error);
+    return Promise.reject(error);
+  }
+);
 
 // Add a response interceptor
 axiosApiInstance.interceptors.response.use(
