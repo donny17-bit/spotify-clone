@@ -69,8 +69,7 @@ export default function Home() {
       <main className=" h-[100vh] w-[100vw] bg-black">
         <Grid
           templateAreas={`"nav divider main"`}
-          // maxH="100vh"
-          h="95vh"
+          h={"100vh"}
           fontWeight="bold"
           onMouseMove={(e) => dividerMove(e)}
         >

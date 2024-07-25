@@ -50,7 +50,15 @@ function Playlist(data: datas) {
           Tampilkan semua
         </Link>
       </HStack>
-      <Grid templateColumns="repeat(6, 1fr)" gap={3}>
+      <Grid
+        templateColumns={{
+          base: "repeat(2, 1fr)",
+          md: "repeat(3, 1fr)",
+          lg: "repeat(6, 1fr)",
+          xl: "repeat(8, 1fr)",
+        }}
+        gap={3}
+      >
         {/* album cover */}
         {topArtist.map((item: items, i: number) => (
           <GridItem key={i}>

@@ -7,19 +7,22 @@ import {
   VStack,
   HStack,
   Image,
+  Flex,
 } from "@chakra-ui/react";
 
 import ListPlaylist from "../ListPlaylist";
 
 type data = {
   isLogin: boolean;
+  height: number;
 };
 
 function UserNavbar(data: data) {
   return (
-    <Box
+    <Flex
+      flexDirection={"column"}
       mt={5}
-      h={data.isLogin ? "73vh" : "68vh"}
+      maxH={`${data.height}px`}
       _hover={{ overflowY: "auto" }}
       overflowY={"hidden"}
     >
@@ -33,7 +36,10 @@ function UserNavbar(data: data) {
       <ListPlaylist />
       <ListPlaylist />
       <ListPlaylist />
-    </Box>
+      <ListPlaylist />
+      <ListPlaylist />
+      <ListPlaylist />
+    </Flex>
   );
 }
 

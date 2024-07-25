@@ -1,13 +1,14 @@
 import {
   Box,
   Button,
+  Grid,
   GridItem,
   Text,
   Link,
   Icon,
   HStack,
+  Flex,
 } from "@chakra-ui/react";
-
 import nextLink from "next/link";
 import { FaSpotify } from "react-icons/fa";
 import { GoHome, GoHomeFill } from "react-icons/go";
@@ -17,6 +18,8 @@ import { FaPlus } from "react-icons/fa6";
 import Guest from "./guest";
 import UserNavbar from "./user";
 import { useRouter } from "next/router";
+import ListPlaylist from "../ListPlaylist";
+import { useRef, useEffect, useState } from "react";
 
 type data = {
   isLogin: boolean;
@@ -25,17 +28,42 @@ type data = {
 
 function Navbar(data: data) {
   const router = useRouter();
+  const ref = useRef(null);
+  const [currentH, setCurrentH] = useState(0);
+
+  const handleResize = (entries: any) => {
+    for (let entry of entries) {
+      if (entry.target === ref.current) {
+        setCurrentH(entry.contentRect.height - 100);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const resizeObserver = new ResizeObserver(handleResize);
+
+    if (ref.current) {
+      resizeObserver.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        resizeObserver.unobserve(ref.current);
+      }
+    };
+  }, []);
 
   return (
-    <GridItem ps="2" pb="2" pt="2" bg="black" area={"nav"} w={data.width}>
+    <Flex
+      ps="2"
+      pb="2"
+      pt="2"
+      bg="black"
+      flexDirection={"column"}
+      w={data.width}
+    >
       {/* Home */}
-      <Box
-        bg="#121212"
-        p={5}
-        color="white"
-        borderRadius={"lg"}
-        h={!data.isLogin ? "15vh" : "10vh"}
-      >
+      <Box bg="#121212" p={5} color="white" borderRadius={"lg"}>
         {data.isLogin ? (
           <></>
         ) : (
@@ -83,15 +111,17 @@ function Navbar(data: data) {
           </Text>
         </Button>
       </Box>
-      {/* koleksi */}
-      <Box
+      {/* collection */}
+      <Flex
+        ref={ref}
+        flexDirection={"column"}
         bg="#121212"
         color="white"
         borderRadius={"lg"}
         mt={2}
-        h={data.isLogin ? "87vh" : "82vh"}
+        flex={"1"}
       >
-        {/* Koleksi */}
+        {/* collection */}
         <HStack justify={"space-between"} px={5} pt={5}>
           <Link as={nextLink} href="#" _hover={{ textDecoration: "none" }}>
             <HStack _hover={{ color: "white" }} color={"#A7A7A7"}>
@@ -113,10 +143,14 @@ function Navbar(data: data) {
           </Button>
         </HStack>
         <Box px={3} pb={5}>
-          {data.isLogin ? <UserNavbar isLogin={data.isLogin} /> : <Guest />}
+          {data.isLogin ? (
+            <UserNavbar isLogin={data.isLogin} height={currentH} />
+          ) : (
+            <Guest />
+          )}
         </Box>
-      </Box>
-    </GridItem>
+      </Flex>
+    </Flex>
   );
 }
 

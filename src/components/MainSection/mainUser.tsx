@@ -17,18 +17,23 @@ function MainUser() {
   const topArtist = userArtistState.data.items;
   const featuredPlaylist = featuredPlaylistState.data.playlists.items;
 
-  console.log("playlist : ", featuredPlaylist);
-
   const dispatch = useDispatch();
   const router = useRouter();
   const displayName = userState.data.display_name;
   const access_token = localStorage.getItem("access_token");
 
+  const featured = async (access_token: string) => {
+    await dispatch(getFeaturedPlaylist(access_token, 6, 0, "id_ID"));
+  };
+
+  const user = async (access_token: string) => {
+    await dispatch(getUserTopArtist(access_token, 6, 0));
+  };
+
   useEffect(() => {
     if (access_token) {
-      dispatch(getUserTopArtist(access_token, 6, 0));
-      dispatch(getFeaturedPlaylist(access_token, 6, 0, "id_ID"));
-
+      user(access_token);
+      featured(access_token);
       router.push("/");
     }
   }, []);
@@ -42,14 +47,27 @@ function MainUser() {
       // _hover={{ overflowY: "auto" }}
       overflowY={"auto"}
     >
-      <Playlist title={`${displayName}'s Top Artist`} py={4} data={topArtist} />
-      <Playlist
-        title="Hit terpopuler hari ini"
-        py={5}
-        data={featuredPlaylist}
-      />
-      <Playlist title="Hit terpopuler hari ini" py={5} data={topArtist} />
-      <Playlist title="Hit terpopuler hari ini" py={5} data={topArtist} />
+      {topArtist === undefined ? (
+        <> </>
+      ) : (
+        <Playlist
+          title={`${displayName}'s Top Artist`}
+          py={4}
+          data={topArtist}
+        />
+      )}
+
+      {featuredPlaylist === undefined ? (
+        <></>
+      ) : (
+        <Playlist
+          title="Hit terpopuler hari ini"
+          py={5}
+          data={featuredPlaylist}
+        />
+      )}
+      {/* <Playlist title="Hit terpopuler hari ini" py={5} data={topArtist} />
+      <Playlist title="Hit terpopuler hari ini" py={5} data={topArtist} />  */}
     </Box>
   );
 }
