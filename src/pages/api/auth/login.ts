@@ -8,7 +8,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const client_id: string = "e529c8dfcf934586965b68bbd996f202";
   const client_secret: string = "f405192d372346619a2a4f631092ba90";
   const redirect_uri: string = "http://127.0.0.1:3000/";
-  const scope = "user-read-private user-read-email user-top-read";
+  const scope =
+    "user-read-private user-read-email user-top-read playlist-read-private";
   const baseUrl = req.url?.split("?")[0];
   const code = req.query.code;
 

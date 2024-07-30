@@ -4,7 +4,8 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { Box, Divider, Grid, GridItem } from "@chakra-ui/react";
 
-import { getUser } from "@/store/action/user";
+import { getUser, getUserPlaylists } from "@/store/action/user";
+
 import Navbar from "@/components/Navbar/navbar";
 import Navigation from "@/components/Navigation/navigation";
 import DefaultMainSection from "@/components/MainSection/guest";
@@ -17,7 +18,7 @@ export default function Home() {
 
   const [isLogin, setIsLogin] = useState(false); // check if user login or not
   const [isResizing, setIsResizing] = useState(false);
-  const [width, setWidth] = useState("20vw");
+  const [width, setWidth] = useState("350px");
   const access_token = localStorage.getItem("access_token");
 
   const dividerDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -52,10 +53,15 @@ export default function Home() {
     await dispatch(getUser(access_token));
   };
 
+  const getUserPlaylist = async (access_token: string) => {
+    await dispatch(getUserPlaylists(access_token, 10, 0));
+  };
+
   useEffect(() => {
     if (access_token) {
       setIsLogin(true);
       getUserProfile(access_token);
+      getUserPlaylist(access_token);
     } else {
       setIsLogin(false);
     }

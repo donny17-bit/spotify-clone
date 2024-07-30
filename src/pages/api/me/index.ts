@@ -7,22 +7,19 @@ export default async function handler(
 ) {
   const { method } = req;
   const { authorization } = req.headers;
-  const { limit, offset } = req.query;
 
   if (method === "GET") {
-    const result = await axios.get(
-      `me/top/artists?time_range=medium_term&limit=${limit}&offset=${offset}`,
-      {
-        headers: {
-          Authorization: `${authorization}`,
-        },
-      }
-    );
+    const result = await axios.get("me", {
+      headers: {
+        Authorization: `${authorization}`,
+      },
+    });
     res.json({
       data: result.data,
-      message: "success get user's top artist",
+      message: "get user profile success",
       status: 200,
     });
+    res.end();
   } else {
     // Method not allowed
     res.setHeader("Allow", ["GET"]);

@@ -60,6 +60,7 @@ function Navbar(data: data) {
       pt="2"
       bg="black"
       flexDirection={"column"}
+      // w="300px"
       w={data.width}
     >
       {/* Home */}
